@@ -1,7 +1,5 @@
 package com.natapo.webdriver;
 
-import static org.junit.Assert.assertEquals;
-
 import java.util.concurrent.TimeUnit;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -12,6 +10,8 @@ public class TestCase02 {
 	System.setProperty("webdriver.chrome.driver", "C:\\MyProjects\\chromedriver_win32\\chromedriver.exe");
 	WebDriver driver;
 	String baseUrl;
+	//StringBuffer verificationErrors = new StringBuffer();
+	
 	
 	//void setUp() throws Exception 
 	//{
@@ -32,24 +32,34 @@ public class TestCase02 {
 			
 		driver.findElement(By.linkText("MOBILE")).click();
 		actualTitle = driver.getTitle();
-		try {
-			assertEquals(expectedTitle, actualTitle);
-		} catch (Exception e) {
-			e.printStackTrace();
+		System.out.println(actualTitle);
+		if(actualTitle.contains(expectedTitle)) {
+			System.out.println("Test passed!");
+		}else {
+			System.out.println("Test failed!");
 		}
+		
+		/*
+		try {
+			AssertJUnit.assertEquals(expectedTitle, actualTitle);
+		} catch (Error e) {
+			verificationErrors.append(e.toString());
+		}
+		
+		*/
 		
 		idProductExperia="product-price-1";
 		costExperiaFromPageList = driver.findElement(By.id(idProductExperia)).getText();
+		System.out.println("Price from Page List:" + costExperiaFromPageList);		
 		driver.findElement(By.linkText("SONY XPERIA")).click();
+		
 		costExperiaFromPageDetails = driver.findElement(By.id(idProductExperia)).getText();
-		try {
-			assertEquals(costExperiaFromPageList, costExperiaFromPageDetails);
-		} catch (Exception e) {
-			
-			e.printStackTrace();
-			
+		System.out.println("Price from Page Details:" + costExperiaFromPageDetails);
+		if(costExperiaFromPageList.contentEquals(costExperiaFromPageDetails)){
+			System.out.println("Test passed");
+		}else {
+			System.out.println("Test failed");
 		}
-		System.out.println("Test passed!");
 		
 	//}
 	
