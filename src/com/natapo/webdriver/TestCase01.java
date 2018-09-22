@@ -10,8 +10,6 @@ import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.util.concurrent.TimeUnit;
-//import org.testing.AssertJUnit;
-
 
 
 public class TestCase01 {
@@ -70,7 +68,7 @@ public class TestCase01 {
 			verificationErrors.append(e.toString());
 		}
 		*/
-		
+		//take screenshot();
 		Select sortBy = new Select (driver.findElement(By.cssSelector("select[title=\"Sort By\"]"))); 
 		sortBy.selectByVisibleText("Name");
 		scc =(scc+1);

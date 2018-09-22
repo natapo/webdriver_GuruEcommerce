@@ -8,56 +8,48 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 public class TestCase02 {
-	public static void main(String[] args){
-	System.setProperty("webdriver.chrome.driver", "C:\\MyProjects\\chromedriver_win32\\chromedriver.exe");
-	WebDriver driver;
-	String baseUrl;
-	
-	//void setUp() throws Exception 
-	//{
-	driver = new ChromeDriver();
-	baseUrl = "http://live.guru99.com/";
-	driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-	//}
-	
-	//void testCase1() throws Exception
-	//{
-		String actualTitle;
-		String expectedTitle = "Mobile";
-		String costExperiaFromPageList;
-		String costExperiaFromPageDetails;
-		String idProductExperia;
-		
-		driver.get(baseUrl);
-			
-		driver.findElement(By.linkText("MOBILE")).click();
-		actualTitle = driver.getTitle();
-		try {
-			assertEquals(expectedTitle, actualTitle);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		idProductExperia="product-price-1";
-		costExperiaFromPageList = driver.findElement(By.id(idProductExperia)).getText();
-		driver.findElement(By.linkText("SONY XPERIA")).click();
-		costExperiaFromPageDetails = driver.findElement(By.id(idProductExperia)).getText();
-		try {
-			assertEquals(costExperiaFromPageList, costExperiaFromPageDetails);
-		} catch (Exception e) {
-			
-			e.printStackTrace();
-			
-		}
-		System.out.println("Test passed!");
-		
-	//}
-	
-	//void tearDown() throws Exception 
-	//{
-		driver.quit();
-	//}
+	private WebDriver driver;
+	private String baseUrl = "http://live.guru99.com/";
 
+	void setUp() {
+		driver = new ChromeDriver();
+		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+	}
+
+	void openBrowserAndGoToLink() {
+		driver.get(baseUrl);
+	}
+
+
+	void testRun() {
+		// WebDriver driver;
+		// String baseUrl;
+		setUp();
+		String expectedTitle = "Mobile";
+		String idProductExperia = "product-price-1";
+		String pageListOfMobiles = "MOBILE";
+		String pageOfProduct = "SONY XPERIA";
+		
+		openBrowserAndGoToLink();
+        
+		goToPageViaLink(pageListOfMobiles);
+		String actualTitle = driver.getTitle();
+		assertEquals(expectedTitle, actualTitle);
+				
+		String costExperiaFromPageList = driver.findElement(By.id(idProductExperia)).getText();
+		goToPageViaLink(pageOfProduct);
+		String costExperiaFromPageDetails = driver.findElement(By.id(idProductExperia)).getText();
+		assertEquals(costExperiaFromPageList, costExperiaFromPageDetails);
+		
+		System.out.println("Test passed!");
+		endOfTest();
+	}
+
+	void goToPageViaLink(String link){
+		driver.findElement(By.linkText(link)).click();
+	}
+	
+	void endOfTest() {
+		driver.quit();
 	}
 }
-
