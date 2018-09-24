@@ -11,26 +11,25 @@ public class TestCase02 {
 	private WebDriver driver;
 	private String baseUrl = "http://live.guru99.com/";
 
+	
 	void setUp() {
 		driver = new ChromeDriver();
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 	}
 
-	void openBrowserAndGoToLink() {
+	void openBrowserAndGoToBaseLink() {
 		driver.get(baseUrl);
 	}
 
-
+	
 	void testRun() {
-		// WebDriver driver;
-		// String baseUrl;
 		setUp();
 		String expectedTitle = "Mobile";
 		String idProductExperia = "product-price-1";
 		String pageListOfMobiles = "MOBILE";
 		String pageOfProduct = "SONY XPERIA";
 		
-		openBrowserAndGoToLink();
+		openBrowserAndGoToBaseLink();
         
 		goToPageViaLink(pageListOfMobiles);
 		String actualTitle = driver.getTitle();
@@ -45,9 +44,11 @@ public class TestCase02 {
 		endOfTest();
 	}
 
+	
 	void goToPageViaLink(String link){
 		driver.findElement(By.linkText(link)).click();
 	}
+	
 	
 	void endOfTest() {
 		driver.quit();

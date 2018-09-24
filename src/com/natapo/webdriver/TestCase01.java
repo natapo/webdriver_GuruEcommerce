@@ -6,82 +6,71 @@ import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.Select;
-import static org.junit.Assert.fail;
-
+import static org.junit.Assert.assertEquals;
 import java.io.File;
 import java.util.concurrent.TimeUnit;
 
 
 public class TestCase01 {
-	public static void main(String[] args){
-	System.setProperty("webdriver.chrome.driver", "C:\\MyProjects\\chromedriver_win32\\chromedriver.exe");
-	WebDriver driver;
-	String baseUrl;
-	int scc = 0;
-	StringBuffer verificationErrors = new StringBuffer();
+	private WebDriver driver;
+	private String baseUrl="http://live.guru99.com";
+
 	
-	
-	//void setUp() throws Exception 
-	//{
+	void setUp(){
 	driver = new ChromeDriver();
-	baseUrl = "http://live.guru99.com";
 	driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-	//}
+	}
 	
-	//void testCase1() throws Exception
-	//{
-		String demoSiteText;
-		String actualTitle;
-		String demoSiteExpectedText = "THIS IS DEMO SITE";
-		String expectedTitle = "Mobile";
-		
+	
+	void openBrowserAndGoToBaseLink() {
 		driver.get(baseUrl);
+	}
+	
+	
+	public void testRun() {
+		setUp();
+		String homePageWelcomeTextLocation = "h2";
+		String pageListOfMobiles = "MOBILE";
+		String demoSiteExpectedText = "THIS IS DEMO SITE FOR";
+		String expectedTitle = "Mobile";
+		String dropdownLocation = "select[title=\"Sort By\"]";
+		String dropdownParametr = "Name";
 		
-		demoSiteText = driver.findElement(By.cssSelector("h2")).getText();
-		System.out.println(demoSiteText);
+		openBrowserAndGoToBaseLink();
+		
+		String demoSiteText = driver.findElement(By.cssSelector(homePageWelcomeTextLocation)).getText();
 		if(demoSiteText.contains(demoSiteExpectedText)) {
 			System.out.println("Test passed!");
 		}else {
 			System.out.println("Test failed!");
 		}
-		/*
-		try {
-			AssertJUnit.assertEquals(demoSiteExpectedText, demoSiteText);
-		} catch (Error e) {
-			verificationErrors.append(e.toString());
-		}
-		*/
+		//assertEquals(demoSiteText, demoSiteExpectedText);
 		
-		driver.findElement(By.linkText("MOBILE")).click();
-		actualTitle = driver.getTitle();
-		System.out.println(actualTitle);
-		if(actualTitle.contains(expectedTitle)) {
-			System.out.println("Test passed!");
-		}else {
-			System.out.println("Test failed!");
-		}
+		driver.findElement(By.linkText(pageListOfMobiles)).click();
+		String actualTitle = driver.getTitle();
+		assertEquals(actualTitle, expectedTitle);
+
+		Select sortBy = new Select (driver.findElement(By.cssSelector(dropdownLocation))); 
+		sortBy.selectByVisibleText(dropdownParametr);
 		
-		/*
-		try {
-			AssertJUnit.assertEquals(expectedTitle, actualTitle);
-		} catch (Error e) {
-			verificationErrors.append(e.toString());
-		}
-		*/
-		//take screenshot();
-		Select sortBy = new Select (driver.findElement(By.cssSelector("select[title=\"Sort By\"]"))); 
-		sortBy.selectByVisibleText("Name");
+		takeScreenshot();
+		
+		endOfTest();
+		System.out.println("Test Passed");
+	}
+	
+	
+	void takeScreenshot() {
+		int scc = 0;
 		scc =(scc+1);
 		File scrFile = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
 		String png = ("" + scc + ".png");
 		//FileUtils.copyFile(scrFile, new File(png));
-	//}
-	
-	//void tearDown() throws Exception 
-	//{
-		driver.quit();
-	//}
+		}
 
+	
+	void endOfTest() {
+		driver.quit();
 	}
 }
 
