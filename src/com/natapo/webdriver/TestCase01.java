@@ -47,16 +47,25 @@ public class TestCase01 {
 		//assertEquals(demoSiteText, demoSiteExpectedText);
 		
 		driver.findElement(By.linkText(pageListOfMobiles)).click();
-		String actualTitle = driver.getTitle();
-		assertEquals(actualTitle, expectedTitle);
-
-		Select sortBy = new Select (driver.findElement(By.cssSelector(dropdownLocation))); 
-		sortBy.selectByVisibleText(dropdownParametr);
+		assertPageTitle(expectedTitle);
 		
+		sortProducts(dropdownLocation, dropdownParametr);
 		takeScreenshot();
 		
 		endOfTest();
 		System.out.println("Test Passed");
+	}
+	
+	
+	void assertPageTitle(String expectedTitle) {
+		String actualTitle = driver.getTitle();
+		assertEquals(actualTitle, expectedTitle);
+	}
+	
+	
+	void sortProducts(String dropdownLocation, String dropdownParametr ) {
+		Select sortBy = new Select (driver.findElement(By.cssSelector(dropdownLocation))); 
+		sortBy.selectByVisibleText(dropdownParametr);
 	}
 	
 	

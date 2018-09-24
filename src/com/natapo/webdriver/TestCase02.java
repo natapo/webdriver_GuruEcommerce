@@ -32,18 +32,22 @@ public class TestCase02 {
 		openBrowserAndGoToBaseLink();
         
 		goToPageViaLink(pageListOfMobiles);
-		String actualTitle = driver.getTitle();
-		assertEquals(expectedTitle, actualTitle);
-				
+		assertPageTitle(expectedTitle);
+						
 		String costExperiaFromPageList = driver.findElement(By.id(idProductExperia)).getText();
 		goToPageViaLink(pageOfProduct);
 		String costExperiaFromPageDetails = driver.findElement(By.id(idProductExperia)).getText();
 		assertEquals(costExperiaFromPageList, costExperiaFromPageDetails);
 		
-		System.out.println("Test passed!");
 		endOfTest();
+		System.out.println("Test passed!");
 	}
 
+	void assertPageTitle(String expectedTitle){
+		String actualTitle = driver.getTitle();
+		assertEquals(expectedTitle, actualTitle);
+	}
+	
 	
 	void goToPageViaLink(String link){
 		driver.findElement(By.linkText(link)).click();
